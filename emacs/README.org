@@ -1,7 +1,6 @@
 #+TITLE: Doom Emacs Dependencies
 #+AUTHOR: Max Masterton
 
-* Dependencies
 In order to install this config you need to first install these packages (assuming that doom emacs and it's dependencies are already installed):
  + JetBrains Mono
  + mu and mbysnc
