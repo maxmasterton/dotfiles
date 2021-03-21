@@ -1,0 +1,16 @@
+#+TITLE: ZSH Dependencies
+#+AUTHOR: Max Masterton
+
+In Order to deploy this some other programs are needed. they are as follows:
+ + The zsh shell (obviously)
+ + Starship prompt
+ + zsh-syntax-highlighting
+ + ufetch
+ + exa
+
+I don't know about other distros but you caan install them as arch packages with the following
+ - community/zsh
+ - community/starship
+ - community/zsh-syntax-highlighting
+ - aur/ufetch
+ - aur/exa

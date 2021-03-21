@@ -1,0 +1,61 @@
+#+TITLE: Configiration file for Zsh (.zshrc)
+#+DESCRIPTION: File used to customize the Z shell.
+#+PROPERTY: header-args :tangle ~/.zshrc
+#+AUTHOR: Max Masterton
+
+* Notes
++ This config requires some packages, they can be seen in the README.org for this directory or they can be seen here.
++ They are the following:
+  - zsh shell (community/zsh)
+  - starship prompt (community/starship)
+  - zsh-syntax-highlighting (community/zsh-syntax-highlighting)
+  - ufetch (aur/ufetch)
+  - exa (aur/exa)
+
+* Config
+** Colours
+This enables colors in the shell (for example red : command invalid, green : command valid)
+
+#+BEGIN_SRC sh
+autoload -U colors && colors
+#+END_SRC
+
+** Autocomplete
+This enables autocomplete, both in a list (when there are multiple options) and just standard tab complete when there is only one.
+
+#+BEGIN_SRC sh
+autoload -U compinit
+zstyle ':completion:*' menu select
+zmodload zsh/complist
+compinit
+_comp_options+=(globdots)
+#+END_SRC
+
+** Starship Prompt
+This is a cool prompt that displays language info and git info.
+
+#+BEGIN_SRC sh
+eval "$(starship init zsh)"
+#+END_SRC
+
+** Ufetch
+This is a minimalist alternative to neofetch that displays some more relevent infomation, there is also a simmilar version called pfetch but it's arch ASCAII art is quite ugly. There is a program that displays even better infomation called uwufetch, but it comes at a heavy price.
+
+#+BEGIN_SRC sh
+ufetch
+#+END_SRC
+
+** Aliases
+These just speed some things up.
+
+#+BEGIN_SRC sh
+alias ls="exa -la"
+alias doom="~/.emacs.d/bin/doom"
+#+END_SRC
+
+** Zsh-syntax-highlighting
+This needs to be at the end of the document
+
+#+BEGIN_SRC sh
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
+#+END_SRC
