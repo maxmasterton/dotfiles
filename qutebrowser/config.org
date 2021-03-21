@@ -1,0 +1,44 @@
+#+TITLE: Qutebrowser Configiration File
+#+DESCRIPTION: Max Masterton's Config file for the QuteBrowser
+#+PROPERTY: header-args :tangle ~/.config/qutebrowser/config.py
+#+AUTHOR: Max Masterton
+
+* Config
+** Imports
+Here are the imports that are required for the rest of the config:
+
+#+BEGIN_SRC python
+import dracula.draw
+#+END_SRC
+
+** Dracula Theme
+This enables the dracula theme which can be found at https://draculatheme.com
+
+#+BEGIN_SRC python
+config.load_autoconfig()
+dracula.draw.blood(c,{
+    'spacing':{
+        'vertical':6,
+        'horizontal':8
+    }
+})
+#+END_SRC
+
+** Aliases
+This enables shortcuts which speed some things up.
+
+#+BEGIN_SRC python
+# c.aliases = {
+#     'q' : 'quit',
+#     'w' : 'session-save',
+#     'wq': 'quit --save'
+#     }
+#+END_SRC
+
+** Cookies
+This automatically enables cookies when they are requested by a website for both chrome and webkit.
+
+#+BEGIN_SRC python
+config.set("content.cookies.accept", "all", "chrome-devtools://*")
+config.set("content.cookies.accept", "all", "devtools://*")
+#+END_SRC
