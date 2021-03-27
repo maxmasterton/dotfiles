@@ -1,0 +1,156 @@
+#+TITLE: Experimental Doom Emacs Config
+#+DESCRIPTION: Max Masterton's experimental configiration file for Doom Emacs, an emacs framework for the stubborn martian vimmer. -- Note: This is an experimental config --
+#+PROPERTY: header-args :tangle ~/.doom.d/config.el
+#+AUTHOR: Max Masterton
+
+* Notes
+This is an experimental config, so nothing is stable.
+ + Control-C Control-C to refresh
+ + M-x org-babel-tangle to tangle to config.el
+
+ #+BEGIN_SRC elisp
+;   ___ _ __ ___   __ _  ___ ___
+;  / _ \ '_ ` _ \ / _` |/ __/ __|
+; |  __/ | | | | | (_| | (__\__ \
+;  \___|_| |_| |_|\__,_|\___|___/
+;
+ #+END_SRC
+
+* The Preambles
+The code in this section  codes for default behaviours from doom emacs
+
+** Name and Email
+#+BEGIN_SRC elisp
+(setq user-full-name "Max Masterton"
+      user-mail-address "me@maxmasterton.tech"
+      ;user-login-name "MaxTheMasterton"
+      )
+#+END_SRC
+
+** Rudimentary Settings
+#+BEGIN_SRC elisp
+(setq-default
+ delete-by-moving-to-trash t ; Delete files to trash
+ tab-width 4 ; set tab width
+ uniquify-buffer-name-style 'forward ; Uniquify buffer names
+ window-combination-resize t ; Take window sapce from all existing windows
+ x-stretch-cursor t ; Stretch cursor over long glyphs
+ )
+
+(setq undo-limit 80000000 ; Set undo limit to 80mb
+      evil-want-fine-undo t ; More granular changes in insert mode
+      auto-save-default t ; Auto save by default
+      inhibit-compacting-font-caches t ; Load glyphs into memory
+      truncate-string-ellipsis "..." ; Use unicode ellispis instead of "..."
+      )
+
+(delete-selection-mode 1) ; Replace selection when inerting text
+(global-subword-mode 1) ; Iterate through CamelCase WOrds with evil bindings
+#+END_SRC
+
+* Aesthetic Settings
+There settings code for asethetic changes
+
+** Fonts
+Doom Exposes five (optional) variables for controlling fonts within doom. Here are the 3 important ones:
++ 'doom-font'
++ 'doom-variable-pitch-font'
++ 'doom-big-font' used for presentations and streaming
+
+They all accept a font-spec, font-string ("Input Mono-12") or xldf font string, you generally only need these two:
+
+#+BEGIN_SRC elisp
+(setq doom-font (font-spec :family "JetBrains Mono" :size 13)
+      doom-big-font (font-spec :family "JetBrains Mono" :size 30)
+      ;doom-variable-pitch-font
+      ;doom-serif-font
+      )
+#+END_SRC
+
+*** Proportional Fonts
+This codes for a function that can be called through M-x. It sets the font to a variable width proportional to fonts in the current buffer.
+
+#+BEGIN_SRC elisp
+(defun my-buffer-face-mode-variable ()
+  "Set font to a variable width (proportional) fonts in the current buffer"
+  (interactive)
+  (setq buffer-face-mode-face '(family: "JetBrains Mono" :height 100))
+  (buffer-face-mode))
+(add-hook 'org-mode-hook 'my-buffer-face-mode-variable)
+#+END_SRC
+
+** Theme
+There are two ways to load a theme. Both assume that the theme is installed and avaliable. You can either set 'doom-theme' or manually load a theme with the 'load-theme' option. I like dracula because the colours stand out and the colours are consistent.
+
+#+BEGIN_SRC elisp
+(setq doom-theme 'doom-dracula)
+
+;; Flagship themes
+;(setq doom-theme 'doom-one
+;      doom-theme 'doom-vibrant)
+
+(delq! t custom-theme-load-path)
+#+END_SRC
+
+*** Modeline Theme
+The text to show files on the the modeline is red by default, to me this screams 'error' so I changed it to orange.
+
+#+BEGIN_SRC elisp
+(custom-set-faces!
+  '(doom-modeline-buffer-modified :foreground "orange"))
+#+END_SRC
+
+** Transparency
+The following option should only be enabled if your compositor is applying a strong blur on transparent objects (E.g. picom's 'dual-kawase' blur). The first argument is for selected blur the second is for idle blur.
+
+#+BEGIN_SRC elisp
+;(set-frame-parameter (selected-frame) 'alpha '(85 . 85))
+;(add-to-list 'default-frame-alist '(alpha . (85 . 85)))
+#+END_SRC
+
+* Modeline
+** Doom Modeline
+The Doom Modeline can also be customized by running 'M-x customize-group RET doom-modeline RET'
+
+#+BEGIN_SRC elisp
+(setq doom-modeline-height 25
+      doom-modeline-bar-width 3
+      )
+
+(setq doom-modeline-icon (display-graphic-p)
+      doom-modeline-buffer-notification-icon t
+      ;doom-modeline-enable-word-count t ; Enables word count for a selected area
+      doom-modeline-indent-info t
+      doom-modeline-workspace-name t
+      )
+
+(setq doom-modeline-continuous-word-count-modes '(markdown-mode gfm-mode org-mode))
+#+END_SRC
+
+** Standard Modeline
+Items visable on the standard GNU/emacs modeline are also visable on the doom-modeline.
+
+#+BEGIN_SRC elisp
+(display-time-mode 1)
+(global-display-line-numbers-mode)
+#+END_SRC
+
+** Modeline Buffer Encoding
+Almost everything that I edit is encoded in UTF-8 so it's only worth showing buffer encoding on the modeline if it's encoding in something other than UTF-8.
+
+#+BEGIN_SRC elisp
+(defun doom-modeline-conditional-buffer-encoding ()
+  (setq-local doom-modeline-buffer-encoding
+              (unless (or (eq buffer-file-coding-system 'utf-8-unix)
+                          (eq buffer-file-coding-system 'utf-8)))))
+(add-hook 'after-change-major-mode-hook #'doom-modeline-conditional-buffer-encoding
+          )
+#+END_SRC
+
+* Other
+** Org Directory
+If you use 'org' and you don't want your org files in the default location below, change the 'org-directory'. It must be set before org loads! Mine lives in a dedicated org directory.
+
+#+BEGIN_SRC elisp
+(setq org-directory "~/org/")
+#+END_SRC

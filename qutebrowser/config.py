@@ -8,11 +8,11 @@ dracula.draw.blood(c,{
     }
 })
 
-#c.aliases = {
-#        'q': 'quit',
-#        'w': 'session-save',
-#        'wq': 'quit --save'
-#        }
+# c.aliases = {
+#     'q' : 'quit',
+#     'w' : 'session-save',
+#     'wq': 'quit --save'
+#     }
 
 config.set("content.cookies.accept", "all", "chrome-devtools://*")
 config.set("content.cookies.accept", "all", "devtools://*")

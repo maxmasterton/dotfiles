@@ -1,5 +1,5 @@
 #+TITLE: Doom Emacs Config
-#+DESCRIPTION: Max Masterton's configiration file for Doom Emacs, An Emacs Framework for the stubborn martian hacker.
+#+DESCRIPTION: Max Masterton's configiration file for Doom Emacs, An Emacs Framework for the stubborn martian vimmer.
 #+PROPERTY: header-args :tangle ~/.doom.d/config.el
 #+AUTHOR: Max Masterton
 
